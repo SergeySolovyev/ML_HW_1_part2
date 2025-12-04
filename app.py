@@ -7,6 +7,79 @@ from pathlib import Path
 
 st.set_page_config(page_title="Car Price Prediction", page_icon="🚗", layout="wide")
 
+# --- Minimalistic global styling ---
+def apply_minimal_style():
+    st.markdown(
+        """
+        <style>
+        /* Фон приложения */
+        [data-testid="stAppViewContainer"] {
+            background-color: #f3f4f6;
+        }
+
+        [data-testid="stHeader"] {
+            background: transparent;
+        }
+
+        .block-container {
+            max-width: 1100px;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        /* Типографика */
+        h1, h2, h3 {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        /* Вкладки */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem;
+        }
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 999px;
+            padding: 0.4rem 0.9rem;
+            background-color: #e5e7eb;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+        .stTabs [aria-selected="true"] {
+            background-color: #111827;
+            color: #f9fafb;
+        }
+
+        /* Метрики как карточки */
+        div[data-testid="metric-container"] {
+            background-color: #ffffff;
+            padding: 0.9rem 1.1rem;
+            border-radius: 0.9rem;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        /* Таблицы */
+        .stDataFrame {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.04);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+apply_minimal_style()
+
 # Загрузка модели
 @st.cache_resource
 def load_model():
@@ -68,10 +141,33 @@ except Exception as e:
 
 
 # --- Основной интерфейс ---
-st.title("🚗 Предсказание стоимости автомобилей")
+# --- Hero section ---
+st.markdown(
+    """
+    <div style="margin-bottom: 1.75rem;">
+        <div style="
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: .16em;
+            color: #9ca3af;
+            margin-bottom: .35rem;
+        ">
+            ML · regression
+        </div>
+        <h1 style="margin: 0 0 .5rem 0;">
+            Предсказание стоимости автомобиля
+        </h1>
+        <p style="margin: 0; font-size: 0.95rem; color: #6b7280;">
+            Загрузите датасет или введите параметры вручную, а затем изучите модель и её веса
+            в аккуратном минималистичном интерфейсе.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # Создаем вкладки
-tab1, tab2, tab3 = st.tabs(["📊 EDA", "🔮 Предсказание", "⚖️ Веса модели"])
+tab1, tab2, tab3 = st.tabs(["EDA", "Предсказание", "Веса модели"])
 
 # --- Вкладка 1: EDA ---
 with tab1:
