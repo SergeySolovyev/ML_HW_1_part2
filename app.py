@@ -106,8 +106,28 @@ def prepare_features(df, feature_names, scaler):
         st.error(f"❌ Отсутствуют признаки: {missing_cols}")
         st.stop()
     
+    # Предобработка: извлекаем числовые значения из строк (mileage, engine, max_power)
+    for col in ['mileage', 'engine', 'max_power']:
+        if col in df_proc.columns and df_proc[col].dtype == 'object':
+            # Извлекаем первое число из строки
+            df_proc[col] = df_proc[col].astype(str).str.extract(r'(\d+\.?\d*)', expand=False)
+            # Преобразуем в float, заменяя пустые значения на NaN
+            df_proc[col] = pd.to_numeric(df_proc[col], errors='coerce')
+    
     # Выбираем только нужные признаки в правильном порядке
     X = df_proc[feature_names]
+    
+    # Проверяем, что все значения числовые
+    for col in X.columns:
+        if not pd.api.types.is_numeric_dtype(X[col]):
+            # Пытаемся преобразовать в числовой тип
+            X[col] = pd.to_numeric(X[col], errors='coerce')
+    
+    # Заполняем пропуски медианами (если они появились после преобразования)
+    if X.isnull().any().any():
+        # Используем медианы из обучающей выборки (можно было бы сохранить их в модели)
+        # Для простоты заполняем нулями или медианами из текущих данных
+        X = X.fillna(X.median())
     
     # Стандартизация через scaler
     X_scaled = scaler.transform(X)
