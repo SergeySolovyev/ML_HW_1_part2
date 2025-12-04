@@ -125,11 +125,9 @@ streamlit run app.py
 
 ## Ссылка на приложение
 
-*После деплоя добавьте ссылку на Streamlit Cloud приложение:*
+Приложение задеплоено на Streamlit Cloud:
 
-```
-https://YOUR_APP_NAME.streamlit.app
-```
+**https://mlhw1part2-7tmsvqobrbnumspebxugaa.streamlit.app/**
 
 ## GitHub репозиторий
 
