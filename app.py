@@ -160,6 +160,9 @@ st.markdown(
         <p style="margin: 0; font-size: 0.95rem; color: #6b7280;">
             Загрузите датасет или введите параметры вручную, а затем изучите модель и её веса.
         </p>
+        <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #9ca3af;">
+            Автор: Соловьев Сергей
+        </p>
     </div>
     """,
     unsafe_allow_html=True,
