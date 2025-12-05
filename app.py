@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import pickle
-from pathlib import Path
 
 st.set_page_config(page_title="Car Price Prediction", page_icon="🚗", layout="wide")
 
@@ -89,10 +88,10 @@ def load_model():
             model_data = pickle.load(f)
         return model_data['scaler'], model_data['model'], model_data['feature_names']
     except FileNotFoundError:
-        st.error("❌ Файл model.pickle не найден! Убедитесь, что модель сохранена.")
+        st.error("Файл model.pickle не найден! Убедитесь, что модель сохранена.")
         st.stop()
     except Exception as e:
-        st.error(f"❌ Ошибка загрузки модели: {e}")
+        st.error(f"Ошибка загрузки модели: {e}")
         st.stop()
 
 
@@ -103,7 +102,7 @@ def prepare_features(df, feature_names, scaler):
     # Проверяем наличие всех признаков
     missing_cols = set(feature_names) - set(df_proc.columns)
     if missing_cols:
-        st.error(f"❌ Отсутствуют признаки: {missing_cols}")
+        st.error(f"Отсутствуют признаки: {missing_cols}")
         st.stop()
     
     # Предобработка: извлекаем числовые значения из строк (mileage, engine, max_power)
@@ -205,12 +204,12 @@ with tab1:
     
     try:
         df_train = load_train_data()
-        st.success(f"✅ Данные загружены успешно! Размер датасета: {len(df_train)} строк, {len(df_train.columns)} столбцов")
+        st.success(f"Данные загружены успешно! Размер датасета: {len(df_train)} строк, {len(df_train.columns)} столбцов")
     except FileNotFoundError:
-        st.error("❌ Файл cars_train.csv не найден!")
+        st.error("Файл cars_train.csv не найден!")
         st.stop()
     except Exception as e:
-        st.error(f"❌ Ошибка загрузки данных: {e}")
+        st.error(f"Ошибка загрузки данных: {e}")
         st.stop()
     
     # График 1: Распределение целевой переменной
@@ -285,12 +284,12 @@ with tab2:
         else:
             try:
                 df_input = pd.read_csv(uploaded_file)
-                st.success(f"✅ Загружено {len(df_input)} строк")
+                st.success(f"Загружено {len(df_input)} строк")
                 
                 # Проверка наличия нужных признаков
                 missing_cols = set(FEATURE_NAMES) - set(df_input.columns)
                 if missing_cols:
-                    st.error(f"❌ Отсутствуют признаки: {missing_cols}")
+                    st.error(f"Отсутствуют признаки: {missing_cols}")
                 else:
                     try:
                         # Подготовка данных
@@ -328,11 +327,11 @@ with tab2:
                         st.dataframe(df_input[display_cols].style.format({'predicted_price': '{:,.0f}'}), use_container_width=True)
                         
                     except Exception as e:
-                        st.error(f"❌ Ошибка при предсказании: {e}")
+                        st.error(f"Ошибка при предсказании: {e}")
                         st.exception(e)
                         
             except Exception as e:
-                st.error(f"❌ Ошибка при чтении файла: {e}")
+                st.error(f"Ошибка при чтении файла: {e}")
                 st.exception(e)
     
     else:  # Ручной ввод
